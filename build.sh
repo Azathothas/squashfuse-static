@@ -50,7 +50,7 @@ if [ "$platform" == "Linux" ]
 fi
 
 echo "= building squashfuse"
-pushd squashfuse-${squashfuse_version}/squashfuse
+pushd squashfuse-${squashfuse_version}
 ./autogen.sh
 env CFLAGS="$CFLAGS -g -O2 -Os -ffunction-sections -fdata-sections" \
     LDFLAGS="$LDFLAGS -Wl,--gc-sections" ./configure
@@ -67,7 +67,7 @@ env CFLAGS="$CFLAGS -g -O2 -Os -ffunction-sections -fdata-sections" \
     LDFLAGS="$LDFLAGS -Wl,--gc-sections" ./configure
 make DESTDIR="$(pwd)/install3" install
 
-popd # squashfuse-${squashfuse_version}/squashfuse
+popd # squashfuse-${squashfuse_version}
 popd # build
 
 shopt -s extglob
