@@ -43,7 +43,7 @@ echo "= downloading squashfuse v${squashfuse_version}"
 if [ "$platform" == "Linux" ]
     then
         export CFLAGS="-static"
-        export LDFLAGS='-all-static'
+        NEWLDFLAGS='-all-static'
     else
         echo "= WARNING: your platform does not support static binaries."
         echo "= (This is mainly due to non-static libc availability.)"
@@ -53,8 +53,8 @@ echo "= building squashfuse"
 pushd squashfuse-${squashfuse_version}
 ./autogen.sh
 env CFLAGS="$CFLAGS -g -O2 -Os -ffunction-sections -fdata-sections" \
-    LDFLAGS="$LDFLAGS -Wl,--gc-sections" ./configure
-make DESTDIR="$(pwd)/install2" install
+    LDFLAGS="-Wl,--gc-sections" ./configure
+make DESTDIR="$(pwd)/install2" LDFLAGS="$NEWLDFLAGS" install
 make clean
 
 echo "= building squashfuse3"
@@ -65,7 +65,7 @@ fi
 ./autogen.sh
 env CFLAGS="$CFLAGS -g -O2 -Os -ffunction-sections -fdata-sections" \
     LDFLAGS="$LDFLAGS -Wl,--gc-sections" ./configure
-make DESTDIR="$(pwd)/install3" install
+make DESTDIR="$(pwd)/install3" LDFLAGS="$NEWLDFLAGS" install
 
 popd # squashfuse-${squashfuse_version}
 popd # build
